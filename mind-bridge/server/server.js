@@ -9,7 +9,7 @@ app.use(express.json()); // Parse JSON request bodies
 
 // OpenRouter configuration
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: "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",
   baseURL: "https://openrouter.ai/api/v1",
   defaultHeaders: {
     "HTTP-Referer": "http://localhost:5173",

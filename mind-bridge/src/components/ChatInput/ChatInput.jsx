@@ -3,38 +3,67 @@ import React, { useState } from "react";
 const ChatInput = ({ messages, setMessages, className }) => {
   const [inputText, setInputText] = useState("");
 
-const sendMessage = async () => {
-  if (inputText.trim()) {
-    const userMessage = { role: "user", content: inputText };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
-    setInputText("");
+  const positiveMessages = [
+    "We’re here for you...",
+    "Finding the right words...",
+    "You’re not alone...",
+    "Crafting a warm reply...",
+    "Thinking of you...",
+    "Help is on the way...",
+    "Gathering some hope...",
+  ];
 
-    try {
-      const response = await fetch("http://localhost:3000/chat", { // Line 14: Fetch call
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedMessages }),
-      });
+  const sendMessage = async () => {
+    if (inputText.trim()) {
+      const userMessage = { id: Date.now(), role: "user", content: inputText };
+      setMessages(prev => [...prev, userMessage]);
+      setInputText("");
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      // Add initial thinking message
+      const thinkingId = Date.now() + 1; // Ensure unique ID
+      let messageIndex = 0;
+      setMessages(prev => [...prev, { id: thinkingId, role: "thinking", content: positiveMessages[messageIndex] }]);
+
+      // Cycle through positive messages every 2.5 seconds
+      const interval = setInterval(() => {
+        messageIndex = (messageIndex + 1) % positiveMessages.length;
+        setMessages(prev => {
+          // Update only the thinking message with the specific ID
+          return prev.map(msg =>
+            msg.id === thinkingId
+              ? { id: msg.id, role: "thinking", content: positiveMessages[messageIndex] }
+              : msg
+          );
+        });
+      }, 2500);
+
+      try {
+        const response = await fetch("http://localhost:3000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: [...messages, userMessage] }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        clearInterval(interval);
+        setMessages(prev => {
+          const newMessages = prev.filter(msg => msg.id !== thinkingId);
+          return [...newMessages, { id: Date.now(), role: "assistant", content: data.content }];
+        });
+      } catch (error) {
+        console.error("Error calling DeepSeek API:", error);
+        clearInterval(interval);
+        setMessages(prev => {
+          const newMessages = prev.filter(msg => msg.id !== thinkingId);
+          return [...newMessages, { id: Date.now(), role: "assistant", content: "Sorry, something went wrong!" }];
+        });
       }
-
-      const data = await response.json();
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { role: "assistant", content: data.content },
-      ]);
-    } catch (error) {
-      console.error("Error calling DeepSeek API:", error); // Line 30: Error logged here
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { role: "assistant", content: "Sorry, something went wrong!" },
-      ]);
     }
-  }
-};
+  };
 
   return (
     <div className={`relative w-[993px] h-[85px] bg-[#f5f6fe] rounded-[28px] shadow-[0_11px_24px_rgba(51,39,58,0.1),0_43px_43px_rgba(51,39,58,0.09),0_97px_58px_rgba(51,39,58,0.05),0_172px_69px_rgba(51,39,58,0.01)] flex items-center ${className}`}>
