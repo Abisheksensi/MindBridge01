@@ -1,17 +1,16 @@
 [build]
-    publish = "dist"
-    command = "npm run build"
+  publish = "dist"
+  command = "npm run build"
 
 [dev]
-    framework = "#custom"
-    command = "npm start"
-    targetPort = 3000
+  framework = "#custom"
+  command = "npm start"
+  targetPort = 3000
 
 [functions]
-    directory = "functions"
+  directory = "functions"
 
-[redirects]
-    [[redirects]]
-        from = "/*"
-        to = "/index.html"
-        status = 200
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
