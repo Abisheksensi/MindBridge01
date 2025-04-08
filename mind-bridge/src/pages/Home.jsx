@@ -5,6 +5,7 @@ import QuickOptions from '../components/sections/QuickOptions/QuickOptions';
 import BreathingActivity from '../components/sections/BreathingActivity/BreathingActivity';
 import MotivateSec from '../components/sections/MotivateSec/MotivateSec';
 import TrustSec from '../components/sections/TrustSec/TrustSec';
+import Blurellipse2 from '../../src/components/Blurellipse/Blurellipse2';
 import { Footer } from '../components/Footer/Footer';
 import { Link } from 'react-router-dom';
 import Ellipse3 from '../assets/Elipses/Ellipse3.png';
@@ -18,30 +19,33 @@ const Home = () => {
   return (
     <div className="relative min-h-screen">
       {/* Background Design (Centered) */}
-                  {/* Hand 1 (Left) */}
-            <img
-              className="absolute w-132 h-auto top-60  opacity-70"
-              alt="Hand 1"
-              src={hand1}
-            />
-            {/* Hand 2 (Right) */}
-            <img
-              className="absolute w-142 h-auto top-1 right-0  opacity-70"
-              alt="Hand 2"
-              src={hand2}
-            />
-      <div className="fixed inset-0 flex justify-center items-center z-[-1]">
-        <div className="relative w-[1242px] h-[1242px] bg-cover" style={{ backgroundImage: `url(${Ellipse5})`, top: '50px' }}>
-          <div className="relative w-[1347px] h-[1499px] top-[-150px] left-[138px] bg-cover" style={{ backgroundImage: `url(${Ellipse4})` }}>
-            {/* Ellipse 3 */}
-            <img
-              className="absolute w-[982px] h-[880px] top-[531px] left-[195px]"
-              alt="Ellipse"
-              src={Ellipse3}
-            />
+        <div className="absolute inset-0 flex justify-center items-center z-[-1]">
+          <div className="relative w-[1242px] h-[1242px] bg-cover" style={{ backgroundImage: `url(${Ellipse5})`, top: '-50px' }}>
+            <div className="relative w-[1347px] h-[1499px] top-[-1750px] left-[138px] bg-cover" style={{ backgroundImage: `url(${Ellipse4})` }}>
+          {/* Ellipse 3 */}
+          <img
+            className="absolute w-[982px] h-[880px] top-[431px] left-[195px]"
+            alt="Ellipse"
+            src={Ellipse3}
+          />
+          {/* Blurellipse2 */}
+          //<Blurellipse2 className="absolute" />
+            </div>
           </div>
         </div>
-      </div>
+
+        {/* Hand 1 (Left) */}
+      <img
+        className="absolute w-132 h-auto top-60 opacity-70 animate-float-left"
+        alt="Hand 1"
+        src={hand1}
+      />
+      {/* Hand 2 (Right) */}
+      <img
+        className="absolute w-142 h-auto top-1 right-0 opacity-70 animate-float-right"
+        alt="Hand 2"
+        src={hand2}
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8 min-h-screen relative z-10">
@@ -57,7 +61,43 @@ const Home = () => {
           <Footer/>
         </div>
       </div>
+
+      {/* Inline CSS for Animations */}
+      <style jsx>{`
+        @keyframes floatLeft {
+          0% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(5deg);
+          }
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+        }
+
+        @keyframes floatRight {
+          0% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(-5deg);
+          }
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+        }
+
+        .animate-float-left {
+          animation: floatLeft 4s ease-in-out infinite;
+        }
+
+        .animate-float-right {
+          animation: floatRight 4s ease-in-out infinite;
+        }
+      `}</style>
     </div>
+    
   );
 };
 
