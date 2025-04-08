@@ -1,21 +1,20 @@
 import React from "react";
-import { LogoMini } from "./LogoMini";
-import { NavbarAtom } from "./NavbarAtom";
-import button from "./button.svg";
+import { LogoMini } from "../LogoMini/LogoMini";
+import { NavbarAtom } from "../NavbarAtom/NavbarAtom";
+import { ButtonPrimary } from "../Buttons/ButtonPrimary/ButtonPrimary";
 
 const NavBar = () => {
   return (
     <div className="flex w-[1435px] items-center justify-between relative">
       <LogoMini className="bg-[url(/image.png)] !relative" />
       <div className="gap-[34px] inline-flex items-center relative flex-[0_0_auto]">
-        <NavbarAtom className="!flex-[0_0_auto]" text="Home" />
-        <NavbarAtom className="!flex-[0_0_auto]" text="Community" />
-        <NavbarAtom className="!flex-[0_0_auto]" text="About" />
+        <NavbarAtom  text="Home" />
+        <NavbarAtom  text="Community" />
+        <NavbarAtom text="About" />
       </div>
 
-      <img className="relative flex-[0_0_auto]" alt="Button" src={button} />
+      <ButtonPrimary/>
     </div>
   );
 };
 export default NavBar;
-
