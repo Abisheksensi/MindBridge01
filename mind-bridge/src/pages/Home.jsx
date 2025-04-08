@@ -18,31 +18,31 @@ const Home = () => {
   console.log("Home is rendering");
   return (
     <div className="relative min-h-screen">
-      {/* Background Design (Centered) */}
-        <div className="absolute inset-0 flex justify-center items-center z-[-1]">
-          <div className="relative w-[1242px] h-[1242px] bg-cover" style={{ backgroundImage: `url(${Ellipse5})`, top: '-50px' }}>
-            <div className="relative w-[1347px] h-[1499px] top-[-1750px] left-[138px] bg-cover" style={{ backgroundImage: `url(${Ellipse4})` }}>
-          {/* Ellipse 3 */}
-          <img
-            className="absolute w-[982px] h-[880px] top-[431px] left-[195px]"
-            alt="Ellipse"
-            src={Ellipse3}
-          />
-          {/* Blurellipse2 */}
-          //<Blurellipse2 className="absolute" />
-            </div>
+      {/* Background Design (Centered) - Unchanged */}
+      <div className="absolute inset-0 flex justify-center items-center z-[-1]">
+        <div className="relative w-[1242px] h-[1242px] bg-cover" style={{ backgroundImage: `url(${Ellipse5})`, top: '-50px' }}>
+          <div className="relative w-[1347px] h-[1499px] top-[-1750px] left-[138px] bg-cover" style={{ backgroundImage: `url(${Ellipse4})` }}>
+            {/* Ellipse 3 */}
+            <img
+              className="absolute w-[982px] h-[880px] top-[431px] left-[195px]"
+              alt="Ellipse"
+              src={Ellipse3}
+            />
+            {/* Blurellipse2 */}
+            {/* <Blurellipse2 className="absolute" /> */}
           </div>
         </div>
+      </div>
 
-        {/* Hand 1 (Left) */}
+      {/* Hand 1 (Left) - Responsive */}
       <img
-        className="absolute w-132 h-auto top-60 opacity-70 animate-float-left"
+        className="absolute w-[200px] md:w-[532px] h-auto top-16 md:top-60 opacity-70 animate-float-left left-0 md:left-auto"
         alt="Hand 1"
         src={hand1}
       />
-      {/* Hand 2 (Right) */}
+      {/* Hand 2 (Right) - Responsive */}
       <img
-        className="absolute w-142 h-auto top-1 right-0 opacity-70 animate-float-right"
+        className="absolute w-[220px] md:w-[542px] h-auto top-2 md:top-1 right-0 opacity-70 animate-float-right"
         alt="Hand 2"
         src={hand2}
       />
@@ -55,14 +55,14 @@ const Home = () => {
         <div className="flex flex-col items-center justify-center flex-grow">
           <HeroSec />
           <QuickOptions />
-          <BreathingActivity/>
-          <TrustSec/>
-          <MotivateSec/>
-          <Footer/>
+          <BreathingActivity />
+          <TrustSec />
+          <MotivateSec />
+          <Footer />
         </div>
       </div>
 
-      {/* Inline CSS for Animations */}
+      {/* Inline CSS for Animations - Unchanged */}
       <style jsx>{`
         @keyframes floatLeft {
           0% {
@@ -97,7 +97,6 @@ const Home = () => {
         }
       `}</style>
     </div>
-    
   );
 };
 
