@@ -12,19 +12,19 @@ const QuickOptions = () => {
   const [ref3, inView3] = useInView({ triggerOnce: true });
 
   return (
-    <div className="flex flex-col items-center gap-16 py-12">
+    <div className="flex flex-col items-center gap-8 sm:gap-16 py-8 sm:py-12 px-4">
       {/* Title and Subtitle */}
-      <div className="w-[1107px] flex flex-col items-center gap-4">
-        <h2 className="text-center font-['General_Sans'] font-semibold text-dark-blue900 text-5xl">
+      <div className="w-full max-w-[1107px] flex flex-col items-center gap-2 sm:gap-4">
+        <h2 className="text-center font-['General_Sans'] font-semibold text-dark-blue900 text-3xl sm:text-5xl">
           Ways to Feel Better
         </h2>
-        <p className="text-center font-[Satoshi] font-normal text-dark-blue900 text-2xl">
+        <p className="text-center font-[Satoshi] font-normal text-dark-blue900 text-lg sm:text-2xl">
           Find help that fits you safe, simple, and here for you
         </p>
       </div>
 
       {/* Cards */}
-      <div className="flex flex-wrap justify-center gap-16">
+      <div className="flex flex-wrap justify-center gap-8 sm:gap-16">
         <div
           ref={ref1}
           className={`transition duration-1000 ${

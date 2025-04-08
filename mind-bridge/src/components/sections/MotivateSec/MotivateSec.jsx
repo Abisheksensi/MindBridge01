@@ -46,8 +46,8 @@ const MotivateSec = () => {
   }, [testimonials.length]);
 
   return (
-    <div className="relative w-full max-w-[1200px] mx-auto py-12">
-      <div className="relative w-full h-[400px] flex justify-center items-center">
+    <div className="relative w-full max-w-[1200px] mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div className="relative w-full h-[300px] sm:h-[400px] flex justify-center items-center">
         {testimonials.map((testimonial, index) => (
           <div
             key={index}
