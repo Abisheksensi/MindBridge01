@@ -60,7 +60,7 @@ const Home = () => {
         </div>
 
         {/* Sections */}
-        <div className="flex h-full flex-col items-center justify-center flex-grow">
+        <div className="flex h-full gap-40 flex-col items-center justify-center flex-grow">
           <HeroSec />
           <QuickOptions />
           <BreathingActivity />

@@ -20,7 +20,7 @@ const BreathingCircle = () => {
 
   useEffect(() => {
     if (isPlaying) {
-      const duration = 2000;
+      const duration = 80000;
       const increment = targetProgress / (duration / 50);
       let currentProgress = 0;
 

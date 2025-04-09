@@ -20,7 +20,7 @@ const BreathingActivity = () => {
         <BreathingCard
           className="custom-class"
           title="Relaxation"
-          description="Follow the breathing pattern to relax your mind.And we think to havedfdsfsdsdfsdfasfsfsdfsdfsdfsdfsdfsdfsdfsdf"
+          description="I suggest is a simple, calming exercise called the 4-4-4 technique or box breathing. It’s designed to help you slow down, ease stress or anxiety, and bring your mind back to the present moment when things feel overwhelming. Here’s how it works: you inhale deeply through your nose for 4 seconds, hold that breath gently for 4 seconds,"
           image={clock}
         />
       </div>

@@ -17,7 +17,7 @@ const BreathingCard = ({ className, title, description, image }) => {
           {title}
         </p>
 
-        <p className="text-sm sm:text-2xl font-normal text-dark-blue700 tracking-[0] leading-[normal]">
+        <p className="text-sm sm:text-2xl font-[Satoshi] text-dark-blue800 tracking-[0] leading-[normal]">
           {description}
         </p>
       </div>

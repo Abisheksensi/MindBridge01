@@ -15,53 +15,58 @@ const ChatInput = ({ messages, setMessages, className }) => {
   ];
 
   const sendMessage = async () => {
-    if (inputText.trim()) {
-      const userMessage = { id: Date.now(), role: "user", content: inputText };
-      setMessages(prev => [...prev, userMessage]);
-      setInputText("");
+  if (inputText.trim()) {
+    const userMessage = { id: Date.now(), role: "user", content: inputText };
+    setMessages((prev) => [...prev, userMessage]);
+    setInputText("");
 
-      const thinkingId = Date.now() + 1;
-      let messageIndex = 0;
-      setMessages(prev => [...prev, { id: thinkingId, role: "thinking", content: positiveMessages[messageIndex] }]);
+    const thinkingId = Date.now() + 1;
+    let messageIndex = 0;
+    setMessages((prev) => [
+      ...prev,
+      { id: thinkingId, role: "thinking", content: positiveMessages[messageIndex] },
+    ]);
 
-      const interval = setInterval(() => {
-        messageIndex = (messageIndex + 1) % positiveMessages.length;
-        setMessages(prev => {
-          return prev.map(msg =>
-            msg.id === thinkingId
-              ? { id: msg.id, role: "thinking", content: positiveMessages[messageIndex] }
-              : msg
-          );
-        });
-      }, 2500);
+    const interval = setInterval(() => {
+      messageIndex = (messageIndex + 1) % positiveMessages.length;
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === thinkingId
+            ? { id: msg.id, role: "thinking", content: positiveMessages[messageIndex] }
+            : msg
+        )
+      );
+    }, 2500);
 
-      try {
-        const response = await fetch("http://localhost:3000/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: [...messages, userMessage] }),
-        });
+    try {
+      const response = await fetch("http://localhost:3000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: [...messages, userMessage] }),
+      });
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+      const data = await response.json();
+      console.log("Server response:", data); // Debug server response
 
-        const data = await response.json();
-        clearInterval(interval);
-        setMessages(prev => {
-          const newMessages = prev.filter(msg => msg.id !== thinkingId);
-          return [...newMessages, { id: Date.now(), role: "assistant", content: data.content }];
-        });
-      } catch (error) {
-        console.error("Error calling DeepSeek API:", error);
-        clearInterval(interval);
-        setMessages(prev => {
-          const newMessages = prev.filter(msg => msg.id !== thinkingId);
-          return [...newMessages, { id: Date.now(), role: "assistant", content: "Sorry, something went wrong!" }];
-        });
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}: ${data.content || "Unknown error"}`);
       }
+
+      clearInterval(interval);
+      setMessages((prev) => {
+        const newMessages = prev.filter((msg) => msg.id !== thinkingId);
+        return [...newMessages, { id: Date.now(), role: "assistant", content: data.content }];
+      });
+    } catch (error) {
+      console.error("Error in sendMessage:", error);
+      clearInterval(interval);
+      setMessages((prev) => {
+        const newMessages = prev.filter((msg) => msg.id !== thinkingId);
+        return [...newMessages, { id: Date.now(), role: "assistant", content: "Sorry, something went wrong!" }];
+      });
     }
-  };
+  }
+};
 
   const startSpeechRecognition = () => {
     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
