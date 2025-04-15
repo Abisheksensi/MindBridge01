@@ -1,28 +1,32 @@
 {
+  "root": true,
+  "ignorePatterns": ["dist"],
   "env": {
     "browser": true,
     "node": true,
-    "es2020": true,
-    "es2021": true
+    "es2020": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 12,
+    "ecmaVersion": "latest",
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
   "plugins": [
-    "react"
+    "react",
+    "react-hooks",
+    "react-refresh"
   ],
   "rules": {
-    "no-unused-vars": "warn",
-    "react/react-in-jsx-scope": "off",
-    "no-undef": "error"
+    "no-unused-vars": ["error", { "varsIgnorePattern": "^[A-Z_]" }],
+    "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+    "react/react-in-jsx-scope": "off"
   },
   "settings": {
     "react": {
