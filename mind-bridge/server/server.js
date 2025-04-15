@@ -1,6 +1,7 @@
 const express = require("express");
 const { OpenAI } = require("openai");
 const cors = require("cors");
+const { MongoClient } = require("mongodb"); // Added for MongoDB
 
 const app = express();
 
@@ -9,8 +10,26 @@ app.use(cors({ origin: "http://localhost:5173" })); // Matches your frontend
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Optional, for form-data (can remove if unused)
 
-// In-memory storage for conversations (consider MongoDB for production)
-let conversations = [];
+// MongoDB setup
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://jayathilakeabishek:jInwlI3XnpwZMICj@messages.cuxljij.mongodb.net/?retryWrites=true&w=majority&appName=Messages";
+let client;
+let globalMongoClientPromise;
+
+const getMongoClient = async () => {
+  if (globalMongoClientPromise) {
+    return globalMongoClientPromise;
+  }
+
+  try {
+    client = new MongoClient(MONGODB_URI);
+    globalMongoClientPromise = client.connect();
+    console.log("Connected to MongoDB");
+    return globalMongoClientPromise;
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw error;
+  }
+};
 
 // DeepSeek configuration
 const openai = new OpenAI({
@@ -45,15 +64,42 @@ const stressAnxietyKeywords = [
   "panic",
 ];
 
-// Save conversation endpoint
-app.post("/save-conversation", (req, res) => {
+// Save conversation endpoint (Updated to use MongoDB)
+app.post("/save-conversation", async (req, res) => {
   const { messages } = req.body;
-  if (messages && messages.length > 1) {
-    const conversationId = Date.now();
-    conversations.push({ id: conversationId, messages });
-    res.json({ success: true, conversationId });
-  } else {
-    res.json({ success: false, message: "No conversation to save" });
+  if (!messages || !Array.isArray(messages) || messages.length <= 1) {
+    return res.json({ success: false, message: "No conversation to save" });
+  }
+
+  try {
+    const client = await getMongoClient();
+    const db = client.db("mental-health-chatbot");
+    const collection = db.collection("conversations");
+
+    const result = await collection.insertOne({
+      messages,
+      createdAt: new Date(),
+    });
+
+    res.json({ success: true, conversationId: result.insertedId });
+  } catch (error) {
+    console.error("Error saving conversation:", error);
+    res.status(500).json({ success: false, message: "Failed to save conversation" });
+  }
+});
+
+// Get conversations endpoint (Added)
+app.get("/get-conversations", async (req, res) => {
+  try {
+    const client = await getMongoClient();
+    const db = client.db("mental-health-chatbot");
+    const collection = db.collection("conversations");
+
+    const conversations = await collection.find({}).toArray();
+    res.json(conversations);
+  } catch (error) {
+    console.error("Error fetching conversations:", error);
+    res.status(500).json({ message: "Failed to fetch conversations" });
   }
 });
 
