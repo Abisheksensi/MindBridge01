@@ -18,6 +18,20 @@
       "dest": "/api/$1"
     },
     {
+      "src": "/src/.*\\.(jsx|js|css|png|jpg|jpeg|gif|svg)",
+      "dest": "/src/$0",
+      "headers": {
+        "Content-Type": "application/javascript"
+      }
+    },
+    {
+      "src": "/dist/.*\\.(js|css|png|jpg|jpeg|gif|svg)",
+      "dest": "/dist/$0",
+      "headers": {
+        "Content-Type": "application/javascript"
+      }
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }

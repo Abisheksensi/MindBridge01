@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { MongoClient } from "mongodb";
 
 // MongoDB connection string (use environment variable for security)
@@ -32,3 +33,4 @@ if (process.env.NODE_ENV === "development") {
 export async function getMongoClient() {
   return await clientPromise;
 }
+/* eslint-enable no-undef */
