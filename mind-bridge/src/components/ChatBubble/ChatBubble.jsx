@@ -11,8 +11,8 @@ const ChatBubble = ({ message }) => {
   
   if (role === 'thinking') {
     return (
-      <div ref={innerRef} className="flex justify-start mb-4">
-        <div className="max-w-xs p-3 rounded-lg bg-blue-900 text-white">
+      <div ref={innerRef} className="w-full max-w-2xl flex justify-start mb-4">
+        <div className="max-w-xs p-3 rounded-lg bg-transparent text-blue-900">
           <span className="animate-pulse inline-block transition-opacity duration-500">{content}</span>
         </div>
       </div>
@@ -22,7 +22,7 @@ const ChatBubble = ({ message }) => {
   return (
     <div ref={innerRef} className={`${role === 'user' ? 'flex justify-end' : 'flex justify-start'} mb-4`}>
       <div
-        className={`${role === 'user' ? 'max-w-xs p-3 rounded-lg bg-blue-500 text-white' : 'max-w-xs p-3 rounded-lg bg-blue-900 text-white'}`}
+        className={`${role === 'user' ? 'max-w-xs p-3 rounded-[32px] bg-blue-100 text-blue-900' : 'max-w-2xl p-3 rounded-lg text-blue-900'}`}
       >
         {content}
       </div>

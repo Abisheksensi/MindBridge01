@@ -1,26 +1,4 @@
-const express = require("express");
-const { OpenAI } = require("openai");
-const cors = require("cors");
-
-const app = express();
-
-// Middleware
-app.use(cors({ origin: "http://localhost:5173" })); // Matches your frontend
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Optional, for form-data (can remove if unused)
-
-// In-memory storage for conversations (consider MongoDB for production)
-let conversations = [];
-
-// DeepSeek configuration
-const openai = new OpenAI({
-  apiKey: "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",
-  baseURL: "https://openrouter.ai/api/v1", 
-  defaultHeaders: {
-    "HTTP-Referer": "http://localhost:5173",
-    "X-Title": "My Chat App",
-  },
-});
+import { OpenAI } from "openai";
 
 // System prompt
 const systemPrompt = {
@@ -45,33 +23,29 @@ const stressAnxietyKeywords = [
   "panic",
 ];
 
-// Save conversation endpoint
-app.post("/save-conversation", (req, res) => {
-  const { messages } = req.body;
-  if (messages && messages.length > 1) {
-    const conversationId = Date.now();
-    conversations.push({ id: conversationId, messages });
-    res.json({ success: true, conversationId });
-  } else {
-    res.json({ success: false, message: "No conversation to save" });
-  }
+// OpenRouter configuration
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
+  defaultHeaders: {
+    "HTTP-Referer": process.env.VERCEL_URL || "http://localhost:5173",
+    "X-Title": "My Chat App",
+  },
 });
 
-// Chat endpoint
-app.post("/chat", async (req, res) => {
-  try {
-    // Log incoming request for debugging
-    console.log("Received request body:", req.body);
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ content: "Method not allowed" });
+  }
 
+  try {
     const messages = req.body.messages;
     if (!messages || !Array.isArray(messages)) {
-      console.log("Invalid messages format:", messages);
       return res.status(400).json({ content: "Invalid messages format" });
     }
 
     // Prepend system prompt
     const chatMessages = [systemPrompt, ...messages];
-    console.log("Messages sent to DeepSeek:", chatMessages);
 
     // Check for distress in latest message
     const latestMessage = chatMessages[chatMessages.length - 1].content.toLowerCase();
@@ -79,19 +53,18 @@ app.post("/chat", async (req, res) => {
     const isStressed = stressAnxietyKeywords.some((keyword) => latestMessage.includes(keyword));
 
     if (isSuicidal) {
-      return res.json({
+      return res.status(200).json({
         content:
           "I'm really worried about you—it sounds incredibly tough right now. I'm here, but I also want you to know you're not alone. Please call 988 (Suicide & Crisis Lifeline) or text HOME to 741741 for immediate support. Can you tell me more about what's going on?",
       });
     }
 
-    // Call DeepSeek API
+    // Call OpenRouter API
     const response = await openai.chat.completions.create({
-      model: "meta-llama/llama-4-maverick:free", // Updated to DeepSeek's chat model
+      model: "meta-llama/llama-4-maverick:free",
       messages: chatMessages,
       stream: false,
     });
-    console.log("DeepSeek response:", response); // Log API response
 
     let reply = response.choices[0].message.content;
 
@@ -108,25 +81,14 @@ app.post("/chat", async (req, res) => {
         "\n\nLet's try something to ease that feeling—how about a quick breathing exercise? Inhale for 4 seconds, hold for 4, exhale for 4. Want to do it together?";
     }
 
-    res.json({ content: reply });
+    res.status(200).json({ content: reply });
   } catch (error) {
-    console.error("Error in /chat endpoint:", {
+    console.error("Error in /api/chat:", {
       message: error.message,
       stack: error.stack,
       code: error.code,
-      response: error.response ? error.response.data : null, // Log API error details if available
+      response: error.response ? error.response.data : null,
     });
     res.status(500).json({ content: "Sorry, something went wrong on our end!" });
   }
-});
-
-// Health check endpoint for testing server availability
-app.get("/health", (req, res) => {
-  res.json({ status: "Server is running" });
-});
-
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+}

@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import "./ChatInput.css";
 
 const ChatInput = ({ messages, setMessages, className }) => {
   const [inputText, setInputText] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState("");
+
+  const isThinking = messages.length > 0 && messages[messages.length - 1].role === "thinking";
+  console.log("isThinking:", isThinking, "Last message:", messages[messages.length - 1]);
 
   const positiveMessages = [
     "We’re here for you...",
@@ -15,7 +19,8 @@ const ChatInput = ({ messages, setMessages, className }) => {
   ];
 
   const sendMessage = async () => {
-  if (inputText.trim()) {
+    if (!inputText.trim()) return;
+
     const userMessage = { id: Date.now(), role: "user", content: inputText };
     setMessages((prev) => [...prev, userMessage]);
     setInputText("");
@@ -39,6 +44,8 @@ const ChatInput = ({ messages, setMessages, className }) => {
     }, 2500);
 
     try {
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // Temporary delay
+
       const response = await fetch("http://localhost:3000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -46,7 +53,7 @@ const ChatInput = ({ messages, setMessages, className }) => {
       });
 
       const data = await response.json();
-      console.log("Server response:", data); // Debug server response
+      console.log("Server response:", data);
 
       if (!response.ok) {
         throw new Error(`Server returned ${response.status}: ${data.content || "Unknown error"}`);
@@ -62,36 +69,31 @@ const ChatInput = ({ messages, setMessages, className }) => {
       clearInterval(interval);
       setMessages((prev) => {
         const newMessages = prev.filter((msg) => msg.id !== thinkingId);
-        return [...newMessages, { id: Date.now(), role: "assistant", content: "Sorry, something went wrong!" }];
+        return [
+          ...newMessages,
+          { id: Date.now(), role: "assistant", content: "Sorry, something went wrong!" },
+        ];
       });
     }
-  }
-};
+  };
 
   const startSpeechRecognition = () => {
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+    if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
 
-      recognition.continuous = false; // Stop after one phrase
-      recognition.interimResults = true; // Show real-time results
-      recognition.lang = 'en-US'; // Set language (adjust as needed)
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
 
-      recognition.onstart = () => {
-        setIsRecording(true);
-      };
-
+      recognition.onstart = () => setIsRecording(true);
       recognition.onresult = (event) => {
         const transcript = Array.from(event.results)
-          .map(result => result[0].transcript)
-          .join('');
+          .map((result) => result[0].transcript)
+          .join("");
         setInputText(transcript);
       };
-
-      recognition.onend = () => {
-        setIsRecording(false);
-      };
-
+      recognition.onend = () => setIsRecording(false);
       recognition.onerror = (event) => {
         console.error("Speech recognition error:", event.error);
         setIsRecording(false);
@@ -106,31 +108,31 @@ const ChatInput = ({ messages, setMessages, className }) => {
 
   return (
     <div
-      className={`relative w-full max-w-[993px] h-[85px] bg-gradient-to-t from-white to-[#f5f6fe] rounded-[28px] shadow-lg flex items-center p-4 ${className}`}
+    className={`chat-input-container ${isThinking ? "thinking" : ""} ${className}`}
     >
-      <span
-        className="material-icons text-gray-600 cursor-pointer"
-        style={{ fontSize: "36px" }}
-      >
+    <div className="background w-full max-w-2xl">
+      <span className="material-icons add-icon" style={{ fontSize: "36px" }}>
         add_circle
       </span>
-      <div className="flex-1 mx-4 bg-white rounded-3xl h-[67px] flex items-center px-6 shadow-sm border border-gray-200">
+      <div className="input-wrapper">
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && sendMessage()}
           placeholder="We are here with you, Talk with us!"
-          className="w-full text-xl font-['General_Sans'] font-normal text-gray-700 bg-transparent border-none outline-none placeholder-gray-400"
+          className="chat-input"
         />
       </div>
+
       <span
-        className={`material-icons cursor-pointer ${isRecording ? 'text-red-500 animate-pulse' : 'text-gray-600'}`}
+        className={`material-icons mic-icon ${isRecording ? "recording" : ""}`}
         style={{ fontSize: "36px" }}
         onClick={startSpeechRecognition}
       >
         mic
       </span>
+    </div>
     </div>
   );
 };
