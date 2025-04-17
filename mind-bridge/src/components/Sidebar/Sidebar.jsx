@@ -13,8 +13,8 @@ const Sidebar = ({ onNewConversation }) => {
   };
 
   return (
-    <div className="w-full md:w-96 bg-transparent md:bg-gradient-to-b md:shadow-none border-r-2 border-blue-50 from-blue-50 to-purple-100 h-auto md:h-screen p-4 flex flex-col items-center fixed md:static top-0 left-0 z-10">
-      <div className="flex flex-col items-center w-full">
+    <div className=" w-full md:w-96 bg-transparent md:bg-gradient-to-b md:shadow-none border-r-2 border-blue-50 from-blue-50 to-purple-100 h-auto md:h-screen p-4 flex flex-col items-center fixed md:static top-0 left-0 z-10">
+      <div className="animate-fadeIn flex flex-col items-center w-full">
         <div className="flex items-center justify-between mb-4 w-full">
           {/* Back Arrow */}
           <span
@@ -51,7 +51,7 @@ const Sidebar = ({ onNewConversation }) => {
       </div>
 
       {/* Spacer - Desktop Only */}
-      <div className="flex-1 hidden md:block"></div>
+      <div className="animate-fadeIn flex-1 hidden md:block"></div>
         <nav
           className={`${
             isNavOpen ? 'flex' : 'hidden'
