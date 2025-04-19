@@ -1,4 +1,3 @@
-// BreathingActivity.jsx
 import React from "react";
 import clock from "../../../assets/images/clock.png";
 import BreathingCard from "../../BreathingCard/BreathingCard";
@@ -6,7 +5,7 @@ import BreathingCircle from "../../BreathingCircle/BreathingCircle";
 
 const BreathingActivity = () => {
   return (
-    <div className="flex flex-col items-center gap-8 md:gap-18 py-8 md:py-12">
+    <div className="flex flex-col items-center gap-8 md:gap-18 px-4 sm:px-8 py-8 md:py-12">
       <div className="flex flex-col items-center gap-2 md:gap-4 px-4">
         <h2 className="font-['General_Sans'] font-semibold text-dark-blue900 text-3xl md:text-5xl text-center">
           Take a Quick Breath Activity!

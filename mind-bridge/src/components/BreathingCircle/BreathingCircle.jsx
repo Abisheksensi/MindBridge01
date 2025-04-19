@@ -1,4 +1,3 @@
-// BreathingCircle.jsx
 import React, { useState, useEffect } from "react";
 import gradVideo from "../../assets/videos/gradvideo.mp4";
 
@@ -39,10 +38,9 @@ const BreathingCircle = () => {
   }, [isPlaying, targetProgress]);
 
   return (
-    <div className="flex flex-col items-center gap-6">
-      <div className="relative flex items-center justify-center">
+    <div className="flex flex-col items-center gap-6 w-full">
+      <div className="relative flex items-center justify-center w-[220px] h-[220px]">
         <svg width="220" height="220" viewBox="0 0 220 220">
-          {/* Background Circle */}
           <circle
             cx="110"
             cy="110"
@@ -51,8 +49,6 @@ const BreathingCircle = () => {
             strokeWidth={strokeWidth}
             fill="none"
           />
-
-          {/* Define the mask and filter */}
           <defs>
             <mask id="progressMask">
               <circle
@@ -92,7 +88,6 @@ const BreathingCircle = () => {
             </video>
           </foreignObject>
 
-          {/* Sharp video (in front) */}
           <foreignObject width="220" height="220" mask="url(#progressMask)">
             <video
               autoPlay
@@ -109,10 +104,9 @@ const BreathingCircle = () => {
           </foreignObject>
         </svg>
 
-        {/* Play Button */}
         <button
           onClick={handlePlay}
-          className="absolute w-16 h-16 flex items-center justify-center bg-transparent"
+          className="absolute w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-transparent"
         >
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
             <path d="M5 3l14 9-14 9V3z" fill="#2d3048" />
@@ -120,7 +114,7 @@ const BreathingCircle = () => {
         </button>
       </div>
 
-      <div className="font-satoshi font-bold text-dark-blue900 text-3xl">
+      <div className="font-satoshi font-bold text-dark-blue900 text-xl sm:text-3xl">
         {Math.round(progress)}%
       </div>
     </div>

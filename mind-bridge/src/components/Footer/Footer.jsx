@@ -6,123 +6,71 @@ import Shape from "../../assets/images/Shape.png";
 import twitterBlack from "../../assets/images/twitter-black.png";
 import vimeoBlack from "../../assets/images/vimeo-black.png";
 
-export const Footer = () => {
+const Footer = () => {
   return (
-    <div className="w-full min-h-screen bg-[#ffffff] flex flex-col justify-end">
-      <div className="relative flex-grow">
-        <img
-          className="absolute w-full h-[209px] top-0 left-0 object-cover"
-          alt="Shape"
-          src={Shape}
-        />
+    <div className="w-full bg-white relative">
+      <img
+        className="absolute w-full h-[209px] top-0 left-0 object-cover"
+        alt="Shape"
+        src={Shape}
+      />
 
-        <div className="inline-flex flex-col items-center gap-9 absolute top-[109px] left-[304px]">
-          <div className="relative w-full h-[212px]">
-            <div className="relative w-full h-[266px] -left-11">
-              {/* Replaced shadow.svg with CSS shadow */}
-                      <div
-                      className="absolute w-full h-[149px] top-[118px] left-0"
-                      style={{
-                        background: "rgba(0, 0, 0, 0.1)",
-                        filter: "blur(20px)",
-                      }}
-                      />
+      <div className="relative z-10 pt-36 pb-10 px-4 md:px-10 max-w-screen-xl mx-auto flex flex-col items-center text-center">
+        {/* Subscribe Section */}
+{/* Subscribe Section */}
+<div className="w-full bg-dark-blue900 rounded-[10px] p-6 md:p-10 shadow-md flex flex-col items-center gap-6 text-white">
+  <h2 className="text-2xl md:text-3xl font-semibold text-center">
+    Subscribe Newsletters
+  </h2>
 
-                      <div className="inline-flex flex-col items-center gap-2.5 px-[92px] py-16 absolute top-0 left-1/2 transform -translate-x-1/2 bg-dark-blue900 rounded-[10px]">
-                      <div className="inline-flex items-center gap-[67px] relative flex-[0_0_auto]">
-                        <div className="relative w-full font-['General_Sans'] font-medium text-white text-[31px] tracking-[0] leading-[normal] text-center">
-                        Subscribe Newsletters
-                        </div>
+  <form className="w-full max-w-xl flex flex-col sm:flex-row items-center gap-4">
+    <input
+      type="email"
+      required
+      placeholder="Enter your email"
+      className="flex-1 w-full bg-white px-4 py-3 rounded text-gray-900 text-sm outline-none"
+    />
+    <button
+      type="submit"
+      className="px-6 py-3 bg-blue-100 hover:bg-blue-700 transition text-blue-900 rounded text-sm font-medium w-full sm:w-auto"
+    >
+      Subscribe Now
+    </button>
+  </form>
+</div>
 
-                        <div className="relative justify-center w-full h-[74px]">
-                        <div className="relative w-[523px] h-[76px] -top-px -left-px rounded">
-                          <input
-                          className="w-[523px] px-6 py-[26px] absolute top-0 left-0 bg-[#ffffff] rounded border-[none] font-['Satoshi'] font-medium text-[#2b3d51] text-[16px] tracking-[0] leading-[normal]"
-                          placeholder="Enter your email"
-                          type="email"
-                          />
 
-                          <div className="inline-flex items-start gap-2.5 px-[38px] py-4 absolute top-2.5 left-[322px] bg-lift-blue rounded">
-                          <div className="relative w-fit [font-family:'DM_Sans-Regular',Helvetica] font-normal text-[#ffffff] text Angled text-[16px] text-center tracking-[0] leading-[normal]">
-                            Subscribe Now
-                          </div>
-                          </div>
-                        </div>
-                        </div>
-                      </div>
-                      </div>
-                    </div>
+        {/* Links + Social Media */}
+        <div className="w-full flex flex-col gap-8 mt-16">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex flex-wrap justify-center md:justify-start gap-6 text-base font-medium text-dark">
+              <span>About us</span>
+              <span>Discover</span>
+              <span>Explore</span>
+              <span>Books</span>
+            </div>
 
-                    <div className="inline-flex flex-col items-center gap-[29px] relative flex-[0_0_auto]">
-                      <div className="inline-flex flex-col items-center gap-12 relative flex-[0_0_auto]">
-                      <div className="inline-flex items-center gap-[389px] relative flex-[0_0_auto]">
-                        <div className="inline-flex items-center gap-[77px] relative flex-[0_0_auto]">
-                        <div className="relative w-fit mt-[-1.00px] [font-family:'DM_Sans-Medium',Helvetica] font-medium text-dark text-base tracking-[0] leading-[normal]">
-                          About us
-                        </div>
-
-                        <div className="relative w-fit mt-[-1.00px] [font-family:'DM_Sans-Medium',Helvetica] font-medium text-dark text-base tracking-[0] leading-[normal]">
-                          Discover
-                        </div>
-
-                        <div className="relative w-fit mt-[-1.00px] [font-family:'DM_Sans-Medium',Helvetica] font-medium text-dark text-base tracking-[0] leading-[normal]">
-                          Explore
-                        </div>
-
-                        <div className="relative w-fit mt-[-1.00px] [font-family:'DM_Sans-Medium',Helvetica] font-medium text-dark text-base tracking-[0] leading-[normal]">
-                          Books
-                        </div>
-                        </div>
-
-                        <div className="relative w-[216px] h-6">
-                        <img
-                          className="absolute w-6 h-6 top-0 left-0"
-                          alt="Facebook black"
-                          src={facebookBlack}
-                        />
-
-                        <img
-                          className="absolute w-6 h-[21px] top-0.5 left-32"
-                          alt="Vimeo black"
-                          src={vimeoBlack}
-                        />
-
-                        <img
-                          className="absolute w-6 h-5 top-0.5 left-16"
-                          alt="Twitter black"
-                          src={twitterBlack}
-                        />
-
-                        <div className="absolute w-6 h-[17px] top-1 left-48 bg-[url(/youtube.svg)] bg-[100%_100%]" />
-                        </div>
-                      </div>
-                <div className="relative w-[1074px] h-px bg-gray-300" />
-              </div>
-
-              <div className="inline-flex items-center gap-[258px] relative flex-[0_0_auto]">
-                <p className="relative w-fit opacity-75 [font-family:'DM_Sans-Medium',Helvetica] font-medium text-dark text-sm tracking-[0] leading-[normal]">
-                  © 2025 Mind Bridge. All rights reserved.
-                </p>
-                            <img
-              className="w-[100px] h-auto"
-              alt="Logo Light"
-              src={logolight}
-            />
-                <div className="inline-flex items-start gap-[30px] relative flex-[0_0_auto]">
-                  <div className="relative w-fit mt-[-1.00px] [font-family:'DM_Sans-Medium',Helvetica] font-medium text-dark text-sm tracking-[0] leading-[normal]">
-                    Terms of Service
-                  </div>
-                            <div className="absolute top-4 left-4">
-          </div>
-
-                  <div className="relative w-fit mt-[-1.00px] [font-family:'DM_Sans-Medium',Helvetica] font-medium text-dark text-sm tracking-[0] leading-[normal]">
-                    Privacy Policy
-                  </div>
-                </div>
-              </div>
+            <div className="flex gap-4">
+              <img className="w-6 h-6" src={facebookBlack} alt="Facebook" />
+              <img className="w-6 h-5" src={twitterBlack} alt="Twitter" />
+              <img className="w-6 h-5" src={vimeoBlack} alt="Vimeo" />
+              <div className="w-6 h-5 bg-[url('/youtube.svg')] bg-contain bg-no-repeat" />
             </div>
           </div>
 
+          <div className="h-px w-full bg-gray-300" />
+
+          {/* Bottom row */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-sm text-gray-600 text-center">
+              © 2025 Mind Bridge. All rights reserved.
+            </p>
+            <img src={logolight} alt="Logo" className="w-[100px] h-auto" />
+            <div className="flex gap-6 text-sm font-medium text-dark">
+              <span>Terms of Service</span>
+              <span>Privacy Policy</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

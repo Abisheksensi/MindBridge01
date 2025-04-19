@@ -49,7 +49,7 @@ function Aichat() {
   return (
     <div className="relative flex h-screen overflow-hidden">
       <Sidebar onNewConversation={handleNewConversation}/>
-      <ChatArea className="h-full w-full" messages={messages} mood={mood} />
+      <ChatArea className="h-full w-full animate-fadeIn" messages={messages} mood={mood} />
 
       {showMoodCard && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">

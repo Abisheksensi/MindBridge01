@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link directly
 import logolight from "../../assets/logo/logolight.png";
-import { NavbarAtom } from "../NavbarAtom/NavbarAtom";
 import { ButtonPrimary } from "../Buttons/ButtonPrimary/ButtonPrimary";
 
 const NavBar = () => {
@@ -43,12 +43,44 @@ const NavBar = () => {
           isMenuOpen ? "flex" : "hidden"
         } md:flex flex-col md:flex-row gap-[34px] items-center absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 z-10 md:flex-[0_0_auto]`}
       >
-        <NavbarAtom text="Home" />
-        <NavbarAtom text="Community" />
-        <NavbarAtom text="About" />
+        {/* Directly use Link components instead of NavbarAtom */}
+        <Link
+          to="/"
+          className="inline-flex items-center justify-center gap-2.5 p-2.5"
+        >
+          <div className="relative w-fit text-xl font-medium font-[Satoshi] text-dark-blue900">
+            Home
+          </div>
+        </Link>
+        <Link
+          to="/community"
+          className="inline-flex items-center justify-center gap-2.5 p-2.5"
+        >
+          <div className="relative w-fit text-xl font-medium font-[Satoshi] text-dark-blue900">
+            Community
+          </div>
+        </Link>
+        <Link
+          to="/about"
+          className="inline-flex items-center justify-center gap-2.5 p-2.5"
+        >
+          <div className="relative w-fit text-xl font-medium font-[Satoshi] text-dark-blue900">
+            About
+          </div>
+        </Link>
         {/* ButtonPrimary at the bottom on mobile */}
-        <div className="mt-4 md:mt-0">
-          <ButtonPrimary />
+        <div className="flex gap-2 mt-4 md:mt-0">
+          <button
+  className="relative px-4 py-2 bg-red-600 rounded-2xl flex items-center gap-2.5  hover:bg-red-700"
+  onClick={() => alert("SOS Triggered!")}
+>
+
+          <span className="material-icons text-white text-lg">report</span>
+          <div className="text-white text-lg font-bold font-[Satoshi]">
+            SOS Help
+          </div>
+        </button>
+        <ButtonPrimary />
         </div>
       </div>
     </div>

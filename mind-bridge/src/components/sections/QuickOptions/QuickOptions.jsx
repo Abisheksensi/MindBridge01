@@ -55,7 +55,7 @@ const QuickOptions = () => {
           ref={ref3}
           className={`transition duration-1000 ${
             inView3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          } border-2 rounded-[24px] border-red-300`}
         >
           <Quickoptioncard
             imageSrc={emergency}
